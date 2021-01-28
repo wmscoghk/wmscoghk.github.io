@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>100% Faith</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center" style="background-image: url(https://inews.gtimg.com/newsapp_match/0/11884148139/0); background-size: 100%; color: white" id="card">
+  <h1>100% Faith</h1>
+  <p>God bless you!</p> 
+</div>
+
+<div id="googleSheetForm">
+</div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1" id="nameList">
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+          <label for="key">Key</label>
+          <input type="text" class="form-control" id="key" placeholder="Key">
+        </div>
+        <button class="btn btn-primary" onclick="loadData()">Submit</button>
+      <hr>
+    </div>
+    <div class="col-sm-1" id="table0">
+    </div>
+    <div class="col-sm-1" id="table1">
+    </div>
+    <div class="col-sm-1" id="table2">
+    </div>
+    <div class="col-sm-1" id="table3">
+    </div>
+    <div class="col-sm-1" id="table4">
+    </div>
+    <div class="col-sm-1" id="table5">
+    </div>
+    <div class="col-sm-1" id="table6">
+    </div>
+    <div class="col-sm-1" id="table7">
+    </div>
+    <div class="col-sm-1" id="table8">
+    </div>
+    <div class="col-sm-1" id="table9">
+    </div>
+    <div class="col-sm-1">
+    </div>
+  </div>
+</div>
+
+    <script id='script'>
+      const pop = array => {
+        return array.pop();
+      };
+      var textColors = ["rgba(239, 103, 103, 1)", "rgba(239, 191, 103, 1)", "rgba(239, 239, 103, 1)", "rgba(170, 239, 103, 1)", "rgba(103, 239, 219, 1)", "rgba(103, 191, 239, 1)", "rgba(103, 116, 239, 1)", "rgba(150, 103, 239, 1)", "rgba(225, 103, 239, 1)"];
+      var colors = ["rgba(239, 103, 103, 0.75)", "rgba(239, 191, 103, 0.75)", "rgba(239, 239, 103, 0.75)", "rgba(170, 239, 103, 0.75)", "rgba(103, 239, 219, 0.75)", "rgba(103, 191, 239, 0.75)", "rgba(103, 116, 239, 0.75)", "rgba(150, 103, 239, 0.75)", "rgba(225, 103, 239, 0.75)"];
+      var titles = ["發表", "聽發表", "訪問", "學習", "侍奉", "睇影像說教", "祈禱", "睇真理書", "傳道", "實踐母親的教誨"];
+      var names = [];
+      var dataArr = new Array(10);
+
+      var bgimages=['https://www.desktopbackground.org/download/o/2012/12/01/492285_backgrounds-simple-mountains-wallpapers_1920x1080_h.jpg',
+            'https://wallpaperaccess.com/full/802624.jpg',
+            'https://watv.org/wp-content/uploads/2021/01/worry-first-enjoy-later.jpg',
+            'https://watv.org/wp-content/uploads/2021/01/melchizedek-and-christ.jpg',];
+      var cardImages=['https://inews.gtimg.com/newsapp_match/0/11884148139/0',
+            'https://img3.goodfon.com/wallpaper/nbig/d/58/leaves-macro-transparent.jpg',
+            'https://elohist.watv.org/upElohist/setting/fc33ae4829671f172ee9e7ddfffa792f.jpg',
+            'https://watv.org/wp-content/uploads/2020/03/teachings-of-mother-10-750x500.jpg',];
+      var randomNumber = Math.floor(Math.random() * bgimages.length);
+      var applyTextWhite = [0, 2, 3];
+
+      var bgImg = 'url(' + bgimages[randomNumber] + ')';
+      var cardImg = 'url(' + cardImages[randomNumber] + ')';
+      var card = document.querySelector('#card');
+
+      $('body').css({'background':bgImg, 'background-size':'cover'});
+      card.style.backgroundImage = cardImg;
+      if (applyTextWhite.includes(randomNumber)) {
+        $('body').css({'color': 'white'});
+      }
+      
+      initDataArr();
+      
+      function initDataArr() {
+        for (var i = 0; i < 10; i++){
+          dataArr[i] = [];
+        }
+      }
+
+      function createAllTable() {
+        for (var i = 0; i < 10; i++) {
+          createTable(i);
+        }
+      }
+
+      function createTable(index) {
+        rindex = 600 - dataArr[index].length;
+        var str1 = '#table';
+        var selector = str1.concat(index.toString());
+        var column = document.querySelector(selector);
+        var tbl = document.createElement('table');
+        tbl.style.width = '100%';
+        tbl.setAttribute('class', 'table table-bordered table-sm');
+        var tbdy = document.createElement('tbody');
+        for (var i = 0; i < 100; i++) {
+          var tr = document.createElement('tr');
+          for (var j = 0; j < 6; j++) {
+            var td = document.createElement('td');
+            td.style.backgroundColor = "rgba(255, 255, 255, 0.25)";
+            if (rindex <= (i*6+j)){
+              td.style.backgroundColor = colors[dataArr[index].pop()];
+            }
+            tr.appendChild(td);
+          }
+          tbdy.appendChild(tr);
+        }
+        tbl.appendChild(tbdy);
+        column.appendChild(tbl);
+        createColumnTitle(column, index);
+      }
+
+      function createColumnTitle(column, index) {
+        var h6 = document.createElement('h6');
+        h6.appendChild(document.createTextNode(titles[index]));
+        h6.style.textAlign = "center";
+        column.appendChild(h6);
+      }
+
+      function updateNameList(names) {
+        var div = document.querySelector('#nameList');
+        for (var name in names) {
+          var h6 = document.createElement('h6');
+          h6.appendChild(document.createTextNode(names[name]));
+          h6.style.color = textColors[name];
+          div.appendChild(h6);
+        }
+      }
+
+      function loadData() {
+        var key = document.getElementById("key").value;
+        localStorage.setItem("key", key);
+        location.reload();
+      }
+
+      window.onload = function() {
+
+        var key = localStorage.getItem("key");
+        if (key !== null) {
+          var url = 'https://spreadsheets.google.com/feeds/list/'.concat(key).concat('/public/values?alt=json');
+
+          $.getJSON(url, function(data) {
+
+            if (data !== null) {
+              // JSON result in `data` variable
+              var entry = data.feed.entry;
+
+              for (var key in data.feed.entry) {
+                var obj = data.feed.entry[key];
+                var name = obj.gsx$name.$t;
+                if (name) {
+                  if (!names.includes(name)) {
+                    names.push(name);
+                  }
+                  var type = titles.indexOf(obj.gsx$type.$t);
+                  var units = obj.gsx$units.$t;
+                  var num = names.indexOf(name);
+                  for (var i = 0; i < units; i++) {
+                    dataArr[type].push(num);
+                  }
+                }
+              }
+              updateNameList(names);
+              createAllTable();
+            }else{
+              console.log('incorrect key');
+              localStorage.clear();
+              location.reload();
+            }
+            
+          });
+        }
+      }
+
+      // disable right click
+      var message = "function disabled";
+
+      function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+      if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+      document.onmousedown = rtclickcheck;
+
+    </script>
+</body>
+</html>
