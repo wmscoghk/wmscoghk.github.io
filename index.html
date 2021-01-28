@@ -159,18 +159,19 @@
           $.getJSON(url, function(data) {
 
             if (data !== null) {
+              console.log(data);
               // JSON result in `data` variable
               var entry = data.feed.entry;
 
               for (var key in data.feed.entry) {
                 var obj = data.feed.entry[key];
-                var name = obj.gsx$name.$t;
+                var name = obj.gsx$姓名.$t;
                 if (name) {
                   if (!names.includes(name)) {
                     names.push(name);
                   }
-                  var type = titles.indexOf(obj.gsx$type.$t);
-                  var units = obj.gsx$units.$t;
+                  var type = titles.indexOf(obj.gsx$活動.$t);
+                  var units = obj.gsx$格數.$t;
                   var num = names.indexOf(name);
                   for (var i = 0; i < units; i++) {
                     dataArr[type].push(num);
