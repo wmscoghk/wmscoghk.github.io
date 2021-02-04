@@ -4,6 +4,8 @@
   <title>100% Faith</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="ruby-gemstone.png" rel="icon" type="image/png">
+  <link href="ruby-gemstone.png" rel="apple-touch-icon" type="image/png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -11,8 +13,9 @@
 </head>
 <body>
 
-<div class="jumbotron text-center" style="background-image: url(https://inews.gtimg.com/newsapp_match/0/11884148139/0); background-size: 100%; color: white;" id="card">
-  <h1>100% Faith</h1>
+<div class="jumbotron text-center" style="background-size: 100%; color: white;" id="card">
+  <div id="card_container" style="height:100%; width:100%;">
+  </div>
 </div>
 
 <div class="page-header text-center" id="title">
@@ -86,42 +89,109 @@
         '之所以要忍耐今天的痛苦，是因為天國在我這裡。',
         '上帝來到這世上不是要受人的服侍，乃是要服侍人， 不甘願受人的服侍，相互服侍的心是上帝所喜悅的。'];
 
-      var textColors = ["rgba(239, 103, 103, 1)", "rgba(239, 191, 103, 1)", "rgba(239, 239, 103, 1)", "rgba(170, 239, 103, 1)", "rgba(103, 239, 219, 1)", "rgba(103, 191, 239, 1)", "rgba(103, 116, 239, 1)", "rgba(150, 103, 239, 1)", "rgba(225, 103, 239, 1)"];
-      var colors = ["rgba(239, 103, 103, 0.75)", "rgba(239, 191, 103, 0.75)", "rgba(239, 239, 103, 0.75)", "rgba(170, 239, 103, 0.75)", "rgba(103, 239, 219, 0.75)", "rgba(103, 191, 239, 0.75)", "rgba(103, 116, 239, 0.75)", "rgba(150, 103, 239, 0.75)", "rgba(225, 103, 239, 0.75)"];
+      var textColors = ["rgba(239, 103, 103, 1)", "rgba(170, 239, 103, 1)", "rgba(103, 239, 219, 1)", "rgba(103, 191, 239, 1)", "rgba(103, 116, 239, 1)", "rgba(150, 103, 239, 1)", "rgba(225, 103, 239, 1)"];
+      var colors = ["rgba(239, 103, 103, 0.85)", "rgba(170, 239, 103, 0.85)", "rgba(103, 239, 219, 0.85)", "rgba(103, 191, 239, 0.85)", "rgba(103, 116, 239, 0.85)", "rgba(150, 103, 239, 0.85)", "rgba(225, 103, 239, 0.85)"];
       var cardColor = ["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)"];
-      var titles = ["禱告", "父親真理書", "講道書", "聖經", "學習", "發表", "聽發表", "傳道", "事奉", "母親的教誨"];
+      var titles = ["禱告", "父親真理書", "講道書/影像說教（禮拜除外）", "聖經", "學習", "發表", "聽發表", "傳道", "事奉（包括探訪）", "實踐母親的教誨"];
+      var enTitles = ["Prayer", "Father's Truth Books", "Sermon Books/ Video Sermon (exclude worship services)", "Bible", "Study", "Sermon Preaching", "Listening to Sermon Preaching", "Preaching", "Service (include Visit)", "Practice the Teachings of Mother"];
+      var title;
       var names = [];
       var dataArr = new Array(10);
+      var completeArr = new Array(10);
 
-      var bgimages=['https://elohist.watv.org/upElohist//web/photoessay/9bb5d5dd894a1022da916f00ab342241.jpg',
+
+      var enGps = ['Establish 100% Faith Campaign: Testing'];
+
+      // 'https://www.teahub.io/photos/full/121-1210853_tulip-flowers-fresh-wallpaper-tulip-wallpaper-for-mobile.jpg'
+      var bgimages=['https://cdn.shopify.com/s/files/1/1003/7610/products/Classical_style_pattern_seamless_Wall_Mural_Wallpaper_a_1400x.jpg?v=1578614224',
             'https://watv.org/wp-content/uploads/2020/04/law-of-nature.jpg',
-            'https://watv.org/wp-content/uploads/2021/01/worry-first-enjoy-later.jpg',
+            'https://wallpaperaccess.com/full/802624.jpg',
             'https://watv.org/wp-content/uploads/2020/12/kings-another-mother.jpg',
-            'https://elohist.watv.org/upElohist/web/misodiary/f9ef32e3e299634e8ad69b1e0cd3c457.jpg',
-            'https://elohist.watv.org/upElohist//web/photoessay/2fa2094f4cf7f68925be1384e27038b0.jpg'];
-      var cardImages=['https://inews.gtimg.com/newsapp_match/0/11884148139/0',
+            'https://image.freepik.com/free-vector/white-prism-background-design-vector_53876-86339.jpg',
+            'https://i.pinimg.com/736x/88/4b/ec/884becb4540e2724d01db2b53ccdb71e.jpg'];
+      var cardImages=['https://media.giphy.com/media/2seaKlqqoGglLcPH2Q/giphy.gif',
             'https://watv.org/wp-content/uploads/2019/05/Allelopathy-in-Plants.jpg',
-            'https://elohist.watv.org/upElohist/setting/fc33ae4829671f172ee9e7ddfffa792f.jpg',
+            'https://media.giphy.com/media/10Ua7rs9fxa8QE/giphy.gif',
             'https://watv.org/wp-content/uploads/2020/05/children-of-light.jpg',
-            'https://i0.wp.com/trippy.me/wp-content/uploads/sky.gif?fit=600%2C338&ssl=1',
+            'https://media0.giphy.com/media/jaOXKCxtBPLieRLI0c/giphy.gif',
             'https://sgwmscog.com/wp-content/uploads/Child-light.gif'];
+      var completeImages = ['https://media2.giphy.com/media/1qgdfBl0FRZ4dM7YzU/source.gif',
+            'https://media3.giphy.com/media/fQMmshQtGmqXxwHoO1/giphy.gif',
+            'https://media2.giphy.com/media/SHT2ELb4lvmLU9IcC1/giphy.gif',
+            'https://media2.giphy.com/media/SiGjBqizFrcXWk5iBb/giphy.gif',
+            'https://media0.giphy.com/media/87gEOGe1VT5md30Qgn/giphy.gif',
+            'https://media1.giphy.com/media/LZ5xZMrO7i4JH3glcj/giphy.gif',
+            'https://media0.giphy.com/media/3gWIjOpHyh066G46he/giphy.gif'];
       var randomNumber = Math.floor(Math.random() * bgimages.length);
-      var applyTextWhite = [0, 2, 4, 5];
+      var applyTextWhite = [];
+      var repeatBg = [0, 4, 5];
+      var rotateCardBg = [4];
 
       var bgImg = 'url(' + bgimages[randomNumber] + ')';
       var cardImg = 'url(' + cardImages[randomNumber] + ')';
       var card = document.querySelector('#card');
 
       $('body').css({'background':bgImg, 'background-size':'cover'});
+      if (repeatBg.includes(randomNumber)) {
+        $('body').css({'background-size':'100%', 'background-repeat': 'repeat'});
+      }
       card.style.backgroundImage = cardImg;
       if (applyTextWhite.includes(randomNumber)) {
         $('body').css({'color': 'white'});
-      }      
+      }
+
+      // get day
+      var now = new Date();
+      var start = new Date(now.getFullYear(), 0, 0);
+      var diff = now - start;
+      var oneDay = 1000 * 60 * 60 * 24;
+      var day = Math.floor(diff / oneDay);
+      var teachingIndex = day % 12;
+
+      // card title
+      var h1 = document.createElement('h1');
+      h1.appendChild(document.createTextNode('100% Faith'));
+      h1.id = 'card_h1';
+
+      // Teachings of Mother
+      var p = document.createElement('p');
+      p.appendChild(document.createTextNode(enTeachings[teachingIndex]));
+      p.appendChild(document.createElement('br'));
+      p.appendChild(document.createTextNode(zhTeachings[teachingIndex]));
+      p.style.fontSize = "1rem";
+      p.id = "card_p";
+
+      var card_container = document.querySelector('#card_container');
+      if (rotateCardBg.includes(randomNumber)) {
+        card.style.transform = 'rotate(180deg)';
+        card_container.style.transform = 'rotate(180deg)';
+      }
+
+      card_container.appendChild(h1);
+      card_container.appendChild(p);
+
       initDataArr();
+
+
+      // disable right click
+      var message = "不可以偷看喔！";
+      function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+      if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+      document.onmousedown = rtclickcheck;
+
+      $('#key').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+           loadData();
+        }
+      });
       
       function initDataArr() {
         for (var i = 0; i < 10; i++){
           dataArr[i] = [];
+          completeArr[i] = 0;
         }
       }
 
@@ -132,7 +202,7 @@
       }
 
       function createTable(index) {
-        rindex = 600 - dataArr[index].length;
+        rindex = names.length*100 - dataArr[index].length;
         var str1 = '#table';
         var selector = str1.concat(index.toString());
         var column = document.querySelector(selector);
@@ -142,10 +212,10 @@
         var tbdy = document.createElement('tbody');
         for (var i = 0; i < 100; i++) {
           var tr = document.createElement('tr');
-          for (var j = 0; j < 6; j++) {
+          for (var j = 0; j < names.length; j++) {
             var td = document.createElement('td');
             td.style.backgroundColor = "rgba(255, 255, 255, 0.25)";
-            if (rindex <= (i*6+j)){
+            if (rindex <= (i*names.length+j)){
               td.style.backgroundColor = colors[dataArr[index].pop()];
             }
             tr.appendChild(td);
@@ -155,11 +225,31 @@
         tbl.appendChild(tbdy);
         column.appendChild(tbl);
         createColumnTitle(column, index);
+        createColumnCompleteMarks(column, index);
+      }
+
+      function createColumnCompleteMarks(column, index) {
+        var div = document.createElement('div');
+        div.style.textAlign = 'center';
+        div.style.marginBottom = '3rem';
+        for (var i = 0; i < completeArr[index]; i++) {
+          var img = document.createElement('img');
+          img.src = completeImages[i];
+          img.style.height = '1rem';
+          img.style.width = 'auto';
+          img.style.margin = '0.5rem';
+          div.appendChild(img);
+        }
+        column.appendChild(div);
       }
 
       function createColumnTitle(column, index) {
         var h6 = document.createElement('h6');
-        h6.appendChild(document.createTextNode(titles[index]));
+        if (enGps.includes(title)) {
+          h6.appendChild(document.createTextNode(enTitles[index]));
+        }else{
+          h6.appendChild(document.createTextNode(titles[index]));
+        }
         h6.style.textAlign = "center";
         column.appendChild(h6);
       }
@@ -190,44 +280,51 @@
 
             if (data !== null) {
               // JSON result in `data` variable
+              console.log(data);
+              title = data.feed.title.$t;
               var entry = data.feed.entry;
-              var title = data.feed.title.$t;
-              var lastUpdateDate = new Date(data.feed.updated.$t);
-              var lastUpdateStr = lastUpdateDate.toLocaleDateString().concat(" ".concat(lastUpdateDate.toLocaleTimeString()));
-              console.log(lastUpdateStr);
+              var lastUpdateDate;
+
+
 
               var titleDiv = document.querySelector('#title');
               var h3 = document.createElement('h3');
               h3.appendChild(document.createTextNode(title));
               titleDiv.appendChild(h3);
 
-              var p = document.createElement('p');
-              p.appendChild(document.createTextNode(lastUpdateStr));
-              titleDiv.appendChild(p);
-
-
-              var hr = document.createElement('hr');
-              titleDiv.appendChild(hr);
-
+              var i = 0;
               for (var key in data.feed.entry) {
                 var obj = data.feed.entry[key];
-                var name = obj.gsx$姓名.$t;
-                if (name) {
-                  if (!names.includes(name)) {
-                    names.push(name);
-                  }
-                  var type = titles.indexOf(obj.gsx$活動.$t);
-                  var units = obj.gsx$格數.$t;
-                  var num = names.indexOf(name);
-                  for (var i = 0; i < units; i++) {
-                    if (dataArr[type].length < 600) {
-                      dataArr[type].push(num);
-                    }else{
-                      break;
+                lastUpdateDate = new Date(obj.gsx$timestamp.$t);
+                if (enGps.includes(title)) {
+                  var name = obj.gsx$name.$t;
+                  if (name) {
+                    if (!names.includes(name)) {
+                      names.push(name);
+                    }
+                    if (i < 10) {
+                      i++;
+                      continue;
                     }
                   }
+                  getEngEntry(obj);
+                }else{
+                  var name = obj.gsx$姓名.$t;
+                  if (name) {
+                    if (!names.includes(name)) {
+                      names.push(name);
+                    }
+                    if (i < 10) {
+                      i++;
+                      continue;
+                    }
+                  }
+                  getEntry(obj);
                 }
               }
+              var lastUpdateStr = lastUpdateDate.toLocaleDateString().concat(" ".concat(lastUpdateDate.toLocaleTimeString()));
+              console.log(completeArr);
+              updateLastUpdate(lastUpdateStr);
               updateNameList(names);
               createAllTable();
             }else{
@@ -240,37 +337,118 @@
         }
       }
 
-      // disable right click
-      var message = "不可以偷看喔！";
-
-      function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
-
-      if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
-
-      document.onmousedown = rtclickcheck;
-
-      $('#key').keypress(function(event){
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'){
-           loadData();
+      function getEngEntry (obj) {
+        var type;
+        var units;
+        var name = obj.gsx$姓名.$t;
+        var num = names.indexOf(name);
+        if (obj.gsx$prayer.$t){
+          updateDataArr(0, parseInt(obj.gsx$prayer.$t)/10, num);
         }
-      });
 
-      // get day
-      var now = new Date();
-      var start = new Date(now.getFullYear(), 0, 0);
-      var diff = now - start;
-      var oneDay = 1000 * 60 * 60 * 24;
-      var day = Math.floor(diff / oneDay);
-      var teachingIndex = day % 12;
+        if (obj.gsx$fatherstruthbooks.$t){
+          updateDataArr(1, parseInt(obj.gsx$fatherstruthbooks.$t)/10, num);
+        }
 
-      // Teachings of Mother
-      var p = document.createElement('p');
-      p.appendChild(document.createTextNode(enTeachings[teachingIndex]));
-      p.appendChild(document.createElement('br'));
-      p.appendChild(document.createTextNode(zhTeachings[teachingIndex]));
-      p.style.fontSize = "1rem";
-      card.appendChild(p);
+        if (obj.gsx$sermonbooksvideosermonexcludeworshipservices.$t){
+          updateDataArr(2, parseInt(obj.gsx$sermonbooksvideosermonexcludeworshipservices.$t)/10, num);
+        }
+
+        if (obj.gsx$bible.$t){
+          updateDataArr(3, parseInt(obj.gsx$bible.$t)/10, num);
+        }
+
+        if (obj.gsx$study.$t){
+          updateDataArr(4, parseInt(obj.gsx$study.$t)/10, num);
+        }
+
+        if (obj.gsx$sermonpreaching.$t){
+          updateDataArr(5, parseInt(obj.gsx$sermonpreaching.$t)/10, num);
+        }
+
+        if (obj.gsx$listeningtosermonpreaching.$t){
+          updateDataArr(6, parseInt(obj.gsx$listeningtosermonpreaching.$t)/10, num);
+        }
+
+        if (obj.gsx$preaching.$t){
+          updateDataArr(7, parseInt(obj.gsx$preaching.$t)/10, num);
+        }
+
+        if (obj.gsx$serviceincludevisit.$t){
+          updateDataArr(8, parseInt(obj.gsx$serviceincludevisit.$t)/10, num);
+        }
+
+        if (obj.gsx$practicetheteachingsofmother.$t){
+          updateDataArr(9, parseInt(obj.gsx$practicetheteachingsofmother.$t)/10, num);
+        }
+      }
+
+      function getEntry (obj) {
+        var type;
+        var units;
+        var name = obj.gsx$姓名.$t;
+        var num = names.indexOf(name);
+        if (obj.gsx$禱告.$t){
+          updateDataArr(0, parseInt(obj.gsx$禱告.$t)/10, num);
+        }
+
+        if (obj.gsx$父親真理書.$t){
+          updateDataArr(1, parseInt(obj.gsx$父親真理書.$t)/10, num);
+        }
+
+        if (obj.gsx$講道書影像說教禮拜除外.$t){
+          updateDataArr(2, parseInt(obj.gsx$講道書影像說教禮拜除外.$t)/10, num);
+        }
+
+        if (obj.gsx$聖經.$t){
+          updateDataArr(3, parseInt(obj.gsx$聖經.$t)/10, num);
+        }
+
+        if (obj.gsx$學習.$t){
+          updateDataArr(4, parseInt(obj.gsx$學習.$t)/10, num);
+        }
+
+        if (obj.gsx$發表.$t){
+          updateDataArr(5, parseInt(obj.gsx$發表.$t)/10, num);
+        }
+
+        if (obj.gsx$聽發表.$t){
+          updateDataArr(6, parseInt(obj.gsx$聽發表.$t)/10, num);
+        }
+
+        if (obj.gsx$傳道.$t){
+          updateDataArr(7, parseInt(obj.gsx$傳道.$t)/10, num);
+        }
+
+        if (obj.gsx$事奉包括探訪.$t){
+          updateDataArr(8, parseInt(obj.gsx$事奉包括探訪.$t)/10, num);
+        }
+
+        if (obj.gsx$實踐母親的教誨.$t){
+          updateDataArr(9, parseInt(obj.gsx$實踐母親的教誨.$t)/10, num);
+        }
+      }
+
+      function updateLastUpdate (lastUpdateStr) {
+        var titleDiv = document.querySelector('#title');
+        var p = document.createElement('p');
+        p.appendChild(document.createTextNode(lastUpdateStr));
+        titleDiv.appendChild(p);
+
+
+        var hr = document.createElement('hr');
+        titleDiv.appendChild(hr);
+      }
+
+      function updateDataArr(type, units, num) {
+        for (var i = 0; i < units; i++) {
+          if (dataArr[type].length >= names.length*100) {
+            dataArr[type] = [];
+            completeArr[type]++;
+          }
+          dataArr[type].push(num);
+        }
+      }
 
     </script>
 </body>
