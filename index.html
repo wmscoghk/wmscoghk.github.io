@@ -17,20 +17,23 @@
   <div id="card_container" style="height:100%; width:100%;">
   </div>
 </div>
-
+<div class="dropdown d-flex justify-content-center" style="margin:1rem;" id='dropdown'>
+</div>
 <div class="page-header text-center" id="title">
 </div>
   
 <div class="container">
   <div class="row">
-    <div class="col-sm-1" id="nameList">
-        <div class="form-group">
-        </div>
-        <div class="form-group">
+    <div class="col-sm-1">
+      <div id='form'>
+<!--         <div class="form-group">
           <input type="text" class="form-control" id="key" placeholder="密碼">
         </div>
         <button class="btn btn-primary" onclick="loadData()">提交</button>
-      <hr>
+        <hr> -->
+      </div>
+      <div id="nameList">
+      </div>
     </div>
     <div class="col-sm-1" id="table0">
     </div>
@@ -98,6 +101,8 @@
       var names = [];
       var dataArr = new Array(10);
       var completeArr = new Array(10);
+      var isListAll = false;
+      var list = [];
 
 
       var enGps = ['Establish 100% Faith Campaign: Testing'];
@@ -183,18 +188,29 @@
       if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
 
       document.onmousedown = rtclickcheck;
-
-      $('#key').keypress(function(event){
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'){
-           loadData();
-        }
-      });
       
       function initDataArr() {
+
+        names = [];
+        dataArr = new Array(10);
+        completeArr = new Array(10);
         for (var i = 0; i < 10; i++){
           dataArr[i] = [];
           completeArr[i] = 0;
+        }
+      }
+
+      function initContainers() {
+        var h = document.querySelector('#nameList');
+        h.innerHTML = '';
+        var t = document.querySelector('#title');
+        t.innerHTML = '';
+        for (var i = 0; i < 10; i++) {
+          var str1 = '#table';
+          var selector = str1.concat(i.toString());
+          var column = document.querySelector(selector);
+
+          column.innerHTML = '';
         }
       }
 
@@ -270,6 +286,89 @@
         }
       }
 
+      function createForm() {
+        var form = document.querySelector('#form');
+        var div = document.createElement('div');
+        div.classList.add('form-group');
+
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.classList.add('form-control');
+        input.id='key';
+        input.placeholder = '密碼';
+        input.style.marginBottom = '0.5rem';
+        input.onkeypress = function(event) {
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if(keycode == '13'){
+             loadData();
+          }
+        };
+        div.appendChild(input);
+
+        var btn = document.createElement('button');
+        btn.classList.add('btn');
+        btn.classList.add('btn-primary');
+        btn.onclick = function() {loadData()};
+        btn.appendChild(document.createTextNode('提交'));
+        div.appendChild(btn);
+
+        var hr = document.createElement('hr');
+        div.appendChild(hr);
+
+        form.appendChild(div);
+      }
+
+      function createMenuItem(menu, item, key) {
+        // var menu = document.querySelector('#menu');
+        var btn = document.createElement('button');
+        btn.classList.add('dropdown-item');
+        btn.type = 'button';
+        btn.id = key;
+        btn.onclick = function() {selectGp(btn)};
+        btn.appendChild(document.createTextNode(item));
+        menu.appendChild(btn);
+      }
+
+      function createDropDown() {
+        const dd = document.querySelector('#dropdown');
+        var btn = document.createElement('button');
+        btn.classList.add('btn');
+        btn.classList.add('btn-info');
+        btn.classList.add('dropdown-toggle');
+        btn.type = 'button';
+        btn.id = 'dropdownMenu';
+        btn.setAttribute('data-toggle', 'dropdown');
+        btn.setAttribute('aria-haspopup', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.appendChild(document.createTextNode('區域'));
+        dd.appendChild(btn);
+
+        var div = document.createElement('div');
+        div.classList.add('dropdown-menu');
+        div.setAttribute('aria-labelledby', 'dropdownMenu');
+        div.id = 'menu';
+        dd.appendChild(div);
+
+        for (var item in list) {
+          var obj = list[item];
+          createMenuItem(div, obj.gsx$區域.$t, obj.gsx$密碼.$t);
+        }
+
+        var logoutbtn = document.createElement('button');
+        logoutbtn.classList.add('btn');
+        logoutbtn.classList.add('btn-danger');
+        logoutbtn.style.marginLeft = '0.5rem';
+        logoutbtn.appendChild(document.createTextNode('登出'));
+        logoutbtn.onclick = function() {logout()};
+        dd.appendChild(logoutbtn);
+      }
+
+      function selectGp(btn) {
+        var menuBtn = document.querySelector('#dropdownMenu');
+        menuBtn.innerHTML = btn.innerHTML;
+        parseData(btn.id);
+      }
+
       function loadData() {
         var key = document.getElementById("key").value;
         localStorage.setItem("key", key);
@@ -279,68 +378,94 @@
       window.onload = function() {
 
         var key = localStorage.getItem("key");
-        if (key !== null) {
-          var url = 'https://spreadsheets.google.com/feeds/list/'.concat(key).concat('/public/values?alt=json');
+        if (key === 'jackshin') {
+
+          const key = '1FFeYr-tHGtlmDvTDscQpBWb9zNqEhmdhpv_cOv1ZS2c/od6';
+          const url = 'https://spreadsheets.google.com/feeds/list/'.concat(key).concat('/public/values?alt=json');
 
           $.getJSON(url, function(data) {
 
             if (data !== null) {
-              // JSON result in `data` variable
-              console.log(data);
-              title = data.feed.title.$t;
-              var entry = data.feed.entry;
-              var lastUpdateDate;
-
-
-
-              var titleDiv = document.querySelector('#title');
-              var h3 = document.createElement('h3');
-              h3.appendChild(document.createTextNode(title));
-              titleDiv.appendChild(h3);
-
-              var i = 0;
-              for (var key in data.feed.entry) {
-                var obj = data.feed.entry[key];
-                lastUpdateDate = new Date(obj.gsx$timestamp.$t);
-                if (enGps.includes(title)) {
-                  var name = obj.gsx$name.$t;
-                  if (name) {
-                    if (!names.includes(name)) {
-                      names.push(name);
-                    }
-                    if (i < 10) {
-                      i++;
-                      continue;
-                    }
+                // JSON result in `data` variable
+                for (var key in data.feed.entry) {
+                  var obj = data.feed.entry[key];
+                  if (obj.gsx$密碼.$t) {
+                    list.push(obj);
                   }
-                  getEngEntry(obj);
-                }else{
-                  var name = obj.gsx$姓名.$t;
-                  if (name) {
-                    if (!names.includes(name)) {
-                      names.push(name);
-                    }
-                    if (i < 10) {
-                      i++;
-                      continue;
-                    }
-                  }
-                  getEntry(obj);
                 }
-              }
-              var lastUpdateStr = lastUpdateDate.toLocaleDateString().concat(" ".concat(lastUpdateDate.toLocaleTimeString()));
-              console.log(completeArr);
-              updateLastUpdate(lastUpdateStr);
-              updateNameList(names);
-              createAllTable();
-            }else{
-              console.log('incorrect key');
-              localStorage.clear();
-              location.reload();
+
+                createDropDown();
             }
-            
           });
+        }else {
+          createForm();
+          if (key) {
+            parseData(key);
+          }
         }
+
+      }
+
+      function parseData (key) {
+
+        initDataArr();
+        initContainers();
+        var url = 'https://spreadsheets.google.com/feeds/list/'.concat(key).concat('/public/values?alt=json');
+
+        $.getJSON(url, function(data) {
+
+          if (data !== null) {
+            // JSON result in `data` variable
+            title = data.feed.title.$t;
+            var entry = data.feed.entry;
+            var lastUpdateDate;
+
+            var titleDiv = document.querySelector('#title');
+            var h3 = document.createElement('h3');
+            h3.appendChild(document.createTextNode(title));
+            titleDiv.appendChild(h3);
+
+            var i = 0;
+            for (var key in data.feed.entry) {
+              var obj = data.feed.entry[key];
+              lastUpdateDate = new Date(obj.gsx$timestamp.$t);
+              if (enGps.includes(title)) {
+                var name = obj.gsx$name.$t;
+                if (name) {
+                  if (!names.includes(name)) {
+                    names.push(name);
+                  }
+                  if (i < 10) {
+                    i++;
+                    continue;
+                  }
+                }
+                getEngEntry(obj);
+              }else{
+                var name = obj.gsx$姓名.$t;
+                if (name) {
+                  if (!names.includes(name)) {
+                    names.push(name);
+                  }
+                  if (i < 10) {
+                    i++;
+                    continue;
+                  }
+                }
+                getEntry(obj);
+              }
+            }
+            var lastUpdateStr = lastUpdateDate.toLocaleDateString().concat(" ".concat(lastUpdateDate.toLocaleTimeString()));
+            updateLastUpdate(lastUpdateStr);
+            updateNameList(names);
+            createAllTable();
+          }else{
+            console.log('incorrect key');
+            localStorage.clear();
+            location.reload();
+          }
+
+        });
       }
 
       function getEngEntry (obj) {
@@ -454,6 +579,11 @@
             completeArr[type]++;
           }
         }
+      }
+
+      function logout () {
+        localStorage.clear();
+        location.reload();
       }
 
     </script>
