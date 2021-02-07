@@ -520,7 +520,7 @@
             var i = 0;
             for (var key in data.feed.entry) {
               var obj = data.feed.entry[key];
-              lastUpdateDate = new Date(obj.gsx$timestamp.$t);
+              lastUpdateDate = parseDate(obj.gsx$timestamp.$t);
               if (enGps.includes(title)) {
                 var name = obj.gsx$name.$t;
                 if (name) {
@@ -708,6 +708,15 @@
         if (obj.gsx$實踐母親的教誨.$t){
           updateDataArr(9, parseInt(obj.gsx$實踐母親的教誨.$t)/10, num);
         }
+      }
+
+      function parseDate(dateString) { 
+        var parts = dateString.split(' ');
+        var dateParts = parts[0].split('/');
+        var timeParts = parts[1].split(':');
+        var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0], timeParts[0], timeParts[1], timeParts[2]); 
+        return dateObject;
+
       }
 
       function updateLastUpdate (lastUpdateStr) {
