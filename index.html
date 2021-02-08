@@ -141,7 +141,7 @@
 
 
       var enGps = ['Establish 100% Faith Campaign: Testing', 'Establish 100% Faith Campaign: Female Young Adult 4-3', 'Establish 100% Faith Campaign: Female Young Adult 4-4'];
-      var zhEnGps = ['建立100%信心活動：壯年／Establish 100% Faith Campaign: Male Adult'];
+      var zhEnGps = ['建立100%信心活動：壯年4組／Establish 100% Faith Campaign: Male Adult Group 4'];
 
       // 'https://www.teahub.io/photos/full/121-1210853_tulip-flowers-fresh-wallpaper-tulip-wallpaper-for-mobile.jpg'
       var bgimages=['https://cdn.shopify.com/s/files/1/1003/7610/products/Classical_style_pattern_seamless_Wall_Mural_Wallpaper_a_1400x.jpg?v=1578614224',
@@ -539,7 +539,7 @@
                   if (!names.includes(name)) {
                     names.push(name);
                   }
-                  if (i < 11) {
+                  if (i < 10) {
                     i++;
                     continue;
                   }
@@ -559,8 +559,10 @@
                 getEntry(obj);
               }
             }
-            var lastUpdateStr = lastUpdateDate.toLocaleDateString().concat(" ".concat(lastUpdateDate.toLocaleTimeString()));
-            updateLastUpdate(lastUpdateStr);
+            if (lastUpdateDate) {
+              var lastUpdateStr = lastUpdateDate.toLocaleDateString().concat(" ".concat(lastUpdateDate.toLocaleTimeString()));
+              updateLastUpdate(lastUpdateStr);
+            }
             updateNameList(names);
             createAllTable();
           }else{
