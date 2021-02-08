@@ -504,8 +504,9 @@
         initContainers();
         var url = 'https://spreadsheets.google.com/feeds/list/'.concat(key).concat('/public/values?alt=json');
 
+        var success = false;
         $.getJSON(url, function(data) {
-
+          success = true;
           if (data !== null) {
             // JSON result in `data` variable
             title = data.feed.title.$t;
@@ -572,6 +573,15 @@
           }
 
         });
+        // handle wrong key
+        const timeout = setTimeout(function() {
+          if (!success){
+            // Handle error accordingly
+            alert("密碼錯誤\nWrong Password");
+            localStorage.clear();
+            location.reload();
+          }
+        }, 5000);
       }
 
       function getEngEntry (obj) {
