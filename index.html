@@ -572,9 +572,7 @@
             updateNameList(names);
             createAllTable();
           }else{
-            console.log('incorrect key');
-            localStorage.clear();
-            location.reload();
+            logout();
           }
 
         });
@@ -583,8 +581,7 @@
           if (!success){
             // Handle error accordingly
             alert("密碼錯誤\nWrong Password");
-            localStorage.clear();
-            location.reload();
+            logout();
           }
         }, 10000);
       }
@@ -759,7 +756,6 @@
 
       function logout () {
         localStorage.clear();
-        console.log(window.location.href.split('?')[0]);
         window.location.assign(window.location.href.split('?')[0]);
       }
 
