@@ -167,7 +167,7 @@
             'https://media2.giphy.com/media/SHT2ELb4lvmLU9IcC1/giphy.gif',
             'http://cdn.lowgif.com/full/a4e39312923151bd-.gif',];
       var randomNumber = Math.floor(Math.random() * 2);
-      randomNumber = randomNumber*2 + 2;
+      randomNumber = 0;
       var applyTextWhite = [];
       var repeatBg = [0, 4, 5];
       var rotateCardBg = [4];
@@ -232,7 +232,6 @@
       var diff = now - start;
       var oneDay = 1000 * 60 * 60 * 24;
       var day = Math.floor(diff / oneDay);
-      day += 4;
       var teachingIndex = day % 13;
 
       // card title
