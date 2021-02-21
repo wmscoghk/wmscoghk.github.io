@@ -11,6 +11,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style type="text/css">
+    @media only screen and (max-width : 576px)
+    {
+      .mobile-card-container > .row {
+        overflow-x: auto;
+      }
+    }
     body{
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -45,8 +51,8 @@
 <div class="page-header text-center" id="title">
 </div>
   
-<div class="container">
-  <div class="row">
+<div class="container container-fluid mobile-card-container">
+  <div class="row text-center flex-nowrap flex-sm-wrap">
     <div class="col-sm-1">
       <div id='form'>
 <!--         <div class="form-group">
