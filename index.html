@@ -380,6 +380,10 @@
         var form = document.querySelector('#form');
 
         if (islogged) {
+          if (!form_c.classList.contains('col-12')) {
+            form_c.classList.remove('col-12');
+            form_c.classList.add('col-1');
+          }
           if (!form_c.classList.contains('col-sm-1')) {
             form_c.classList.remove('col-sm-2');
             form_c.classList.add('col-sm-1');
@@ -396,6 +400,7 @@
           form.appendChild(hr);
         }else{
           if (!form_c.classList.contains('col-12')) {
+            form_c.classList.remove('col-1');
             form_c.classList.add('col-12');
           }
           if (form_c.classList.contains('col-sm-1')) {
