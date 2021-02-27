@@ -348,7 +348,7 @@
       }
 
       function createColumnTitle(column, index) {
-        
+
         var h6_2 = document.createElement('h6');
         var percent = Math.trunc(totalArr[index]/(names.length*100)*100);
         var str = percent + '%';
@@ -359,10 +359,12 @@
         var h6 = document.createElement('h6');
         if (enGps.includes(title)) {
           h6.appendChild(document.createTextNode(enTitles[index]));
+          column.classList.remove('col-2');
           column.classList.add('col-3');
         }else{
           h6.appendChild(document.createTextNode(displayTitles[index]));
           column.classList.remove('col-3');
+          column.classList.add('col-2');
         }
         h6.style.textAlign = "center";
         column.appendChild(h6);
@@ -371,6 +373,7 @@
           h6.appendChild(document.createTextNode(enTitles[index]));
           h6.style.textAlign = "center";
           column.appendChild(h6);
+          column.classList.remove('col-2');
           column.classList.add('col-3');
         }
       }
