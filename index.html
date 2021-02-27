@@ -348,6 +348,14 @@
       }
 
       function createColumnTitle(column, index) {
+        
+        var h6_2 = document.createElement('h6');
+        var percent = Math.trunc(totalArr[index]/(names.length*100)*100);
+        var str = percent + '%';
+        h6_2.appendChild(document.createTextNode(str));
+        h6_2.style.textAlign = "center";
+        column.appendChild(h6_2);
+
         var h6 = document.createElement('h6');
         if (enGps.includes(title)) {
           h6.appendChild(document.createTextNode(enTitles[index]));
@@ -365,13 +373,6 @@
           column.appendChild(h6);
           column.classList.add('col-3');
         }
-        var h6_2 = document.createElement('h6');
-        var percent = Math.trunc(totalArr[index]/(names.length*100)*100);
-        var str = percent + '%';
-        console.log(str);
-        h6_2.appendChild(document.createTextNode(str));
-        h6_2.style.textAlign = "center";
-        column.appendChild(h6_2);
       }
 
       function updateNameList(names) {
