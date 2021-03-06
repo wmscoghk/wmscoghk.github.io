@@ -576,6 +576,7 @@
             titleDiv.appendChild(h3);
 
             var i = 0;
+            var additional = false;
             for (var key in data.feed.entry) {
               var obj = data.feed.entry[key];
               lastUpdateDate = parseDate(obj.gsx$timestamp.$t);
@@ -631,8 +632,6 @@
               updateLastUpdate(lastUpdateStr);
             }
             updateNameList();
-            console.log(names);
-            console.log(display_names);
             createAllTable();
           }else{
             logout();
