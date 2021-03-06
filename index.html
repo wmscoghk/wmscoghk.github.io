@@ -140,6 +140,8 @@
       var enTitles = ["Prayer", "Father's Truth Books", "Sermon Books/ Video Sermon (exclude worship services)", "Bible", "Study", "Sermon Preaching", "Listening to Sermon Preaching", "Preaching", "Service (include Visit)", "Practice the Teachings of Mother"];
       var title;
       var names = [];
+      var display_names = [];
+      var additional = false;
       var dataArr = new Array(10);
       var completeArr = new Array(10);
       var totalArr = new Array(10);
@@ -276,6 +278,7 @@
       function initDataArr() {
 
         names = [];
+        display_names = [];
         dataArr = new Array(10);
         completeArr = new Array(10);
         for (var i = 0; i < 10; i++){
@@ -368,7 +371,7 @@
         }else{
           h6.appendChild(document.createTextNode(displayTitles[index]));
           column.classList.remove('col-3');
-          if (names.length < 4) {
+          if (display_names.length < 4) {
             column.classList.add('col-2');
           }else{
             column.classList.remove('col-2');
@@ -386,11 +389,11 @@
         }
       }
 
-      function updateNameList(names) {
+      function updateNameList() {
         var div = document.querySelector('#nameList');
-        for (var name in names) {
+        for (var name in display_names) {
           var h6 = document.createElement('h6');
-          h6.appendChild(document.createTextNode(names[name]));
+          h6.appendChild(document.createTextNode(display_names[name]));
           h6.style.color = textColors[name];
           div.appendChild(h6);
         }
@@ -578,37 +581,46 @@
               lastUpdateDate = parseDate(obj.gsx$timestamp.$t);
               if (enGps.includes(title)) {
                 var name = obj.gsx$name.$t;
-                if (name) {
+                if (name && i<10) {
                   if (!names.includes(name)) {
-                    names.push(name);
+                    if (!additional)
+                      names.push(name);
+                    display_names.push(name);
+                  }else{
+                    additional = true;
                   }
                   if (i < 10) {
                     i++;
-                    continue;
                   }
                 }
                 getEngEntry(obj);
               }else if (zhEnGps.includes(title)) {
                 var name = obj.gsx$姓名name.$t;
-                if (name) {
+                if (name && i<10) {
                   if (!names.includes(name)) {
-                    names.push(name);
+                    if (!additional)
+                      names.push(name);
+                    display_names.push(name);
+                  }else{
+                    additional = true;
                   }
                   if (i < 10) {
                     i++;
-                    continue;
                   }
                 }
                 getZhEngEntry(obj);
               }else {
                 var name = obj.gsx$姓名.$t;
-                if (name) {
+                if (name && i<10) {
                   if (!names.includes(name)) {
-                    names.push(name);
+                    if (!additional)
+                      names.push(name);
+                    display_names.push(name);
+                  }else{
+                    additional = true;
                   }
                   if (i < 10) {
                     i++;
-                    continue;
                   }
                 }
                 getEntry(obj);
@@ -618,7 +630,9 @@
               var lastUpdateStr = lastUpdateDate.toLocaleDateString().concat(" ".concat(lastUpdateDate.toLocaleTimeString()));
               updateLastUpdate(lastUpdateStr);
             }
-            updateNameList(names);
+            updateNameList();
+            console.log(names);
+            console.log(display_names);
             createAllTable();
           }else{
             logout();
@@ -639,7 +653,7 @@
         var type;
         var units;
         var name = obj.gsx$name.$t;
-        var num = names.indexOf(name);
+        var num = display_names.indexOf(name);
         if (obj.gsx$prayer.$t){
           updateDataArr(0, parseInt(obj.gsx$prayer.$t)/10, num);
         }
@@ -685,7 +699,7 @@
         var type;
         var units;
         var name = obj.gsx$姓名name.$t;
-        var num = names.indexOf(name);
+        var num = display_names.indexOf(name);
         if (obj.gsx$禱告prayer.$t){
           updateDataArr(0, parseInt(obj.gsx$禱告prayer.$t)/10, num);
         }
@@ -731,7 +745,7 @@
         var type;
         var units;
         var name = obj.gsx$姓名.$t;
-        var num = names.indexOf(name);
+        var num = display_names.indexOf(name);
         if (obj.gsx$禱告.$t){
           updateDataArr(0, parseInt(obj.gsx$禱告.$t)/10, num);
         }
