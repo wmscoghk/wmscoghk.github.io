@@ -310,18 +310,21 @@ function updateNameList() {
     h6.style.color = textColors[name];
     div.appendChild(h6);
   }
-  select = document.getElementById('finame');
-  // default
-  var opt = document.createElement('option');
-  opt.value = '';
-  opt.innerHTML = ftitles[ftitles.length-1];
-  select.appendChild(opt);
+  
+  if ($('#finame option').length < 1) {
+    select = document.getElementById('finame');
+    // default
+    var opt = document.createElement('option');
+    opt.value = '';
+    opt.innerHTML = ftitles[ftitles.length-1];
+    select.appendChild(opt);
 
-  for (var i = 0; i < display_names.length; i++){
-      var opt = document.createElement('option');
-      opt.value = display_names[i];
-      opt.innerHTML = display_names[i];
-      select.appendChild(opt);
+    for (var i = 0; i < display_names.length; i++){
+        var opt = document.createElement('option');
+        opt.value = display_names[i];
+        opt.innerHTML = display_names[i];
+        select.appendChild(opt);
+    }
   }
 }
 
