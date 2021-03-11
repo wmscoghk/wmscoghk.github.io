@@ -67,19 +67,22 @@ var translate = [{
   'login':    '登入',
   'logout':   '登出',
   'password': '密碼',
-  'record':   '記錄',
+  'add':      '新增', 
+  'record':   '新增記錄',
   'confirm':  '確認',
 },{
   'login':    'Login',
   'logout':   'Logout',
   'password': 'Password',
-  'record':   'Record',
+  'add':      'Add', 
+  'record':   'Add a New Record',
   'confirm':  'Confirm',
 },{
   'login':    '登入／Login',
   'logout':   '登出／Logout',
   'password': '密碼／Password',
-  'record':   '記錄／Record',
+  'add':      '新增／Add', 
+  'record':   '新增記錄／Add a New Record',
   'confirm':  '確認／Confirm',
 }];
 
@@ -476,7 +479,7 @@ function enableRecord(enable) {
   var cBtn = document.querySelector('#confirmBtn');
   if (enable) {
     record.style.display = 'block';
-    record.appendChild(document.createTextNode(translate[langOpt].record));
+    record.appendChild(document.createTextNode(translate[langOpt].add));
     mTitle.appendChild(document.createTextNode(translate[langOpt].record));
     cBtn.appendChild(document.createTextNode(translate[langOpt].confirm));
   }else{
@@ -570,7 +573,7 @@ function translateAll () {
   l.nodeValue = translate[langOpt].logout;
 
   var r = document.getElementById('record').firstChild;
-  r.nodeValue = translate[langOpt].record;
+  r.nodeValue = translate[langOpt].add;
 
   var m = document.getElementById('modalTitle').firstChild;
   m.nodeValue = translate[langOpt].record;
