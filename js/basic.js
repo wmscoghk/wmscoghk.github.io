@@ -440,7 +440,9 @@ function createDropDown() {
 
   for (var item in list) {
     var obj = list[item];
-    createMenuItem(div, obj.gsx$區域.$t, obj.gsx$key.$t);
+    if (obj.gsx$區域.$t) {
+      createMenuItem(div, obj.gsx$區域.$t, obj.gsx$key.$t);
+    }
   }
 
   var logoutbtn = document.createElement('button');
