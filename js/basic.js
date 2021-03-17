@@ -257,7 +257,8 @@ function getTranslate(key) {
   if (key in translate[langOpt]) {
     return translate[langOpt][key];
   }else{
-    alert("error: no tranlate for " + key);
+    alert('error: no tranlate for ' + key);
+    return '';
   }
 }
 
