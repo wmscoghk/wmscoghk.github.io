@@ -143,8 +143,8 @@ if (applyTextWhite.includes(randomNumber)) {
 }
 // countdown
 // Set the date we're counting down to
-const countDownDate = new Date("May 18, 2021 23:59:59").getTime();
-const countDate = new Date("Feb 7, 2021 00:00:00").getTime();
+const countDownDate = new Date("Jan 2, 2022 23:59:59").getTime();
+const countDate = new Date("Sep 21, 2021 00:00:00").getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function () {
@@ -161,7 +161,7 @@ var x = setInterval(function () {
   var hours_left = Math.floor(distance / (1000 * 60 * 60));
   var mins_left = Math.floor(distance / (1000 * 60));
 
-  document.getElementById("days").innerHTML = days;
+  document.getElementById("days").innerHTML = days + 1;
 
   // If the count down is over, do sth
   if (distance < 0) {
@@ -473,8 +473,8 @@ function createDropDown() {
 
   for (var item in list) {
     var obj = list[item];
-    if (obj.gsx$區域.$t) {
-      createMenuItem(div, obj.gsx$區域.$t, obj.gsx$key.$t);
+    if (obj[2]) {
+      createMenuItem(div, obj[0], obj[2]);
     }
   }
 
@@ -495,7 +495,7 @@ function selectGp(btn) {
 
 function getMetaData(key) {
   filtered = list.filter(function(el) {
-    return el.gsx$key.$t === key;
+    return el[2] === key;
   });
   metaData = filtered[0];
   if (metaData)
@@ -522,17 +522,17 @@ function enableRecord(enable) {
 }
 
 function updateFormTitles(obj) {
-  ftitles.push(obj.gsx$prayer.$t);
-  ftitles.push(obj.gsx$truth.$t);
-  ftitles.push(obj.gsx$sermon.$t);
-  ftitles.push(obj.gsx$bible.$t);
-  ftitles.push(obj.gsx$study.$t);
-  ftitles.push(obj.gsx$sermonpreach.$t);
-  ftitles.push(obj.gsx$listen.$t);
-  ftitles.push(obj.gsx$preaching.$t);
-  ftitles.push(obj.gsx$service.$t);
-  ftitles.push(obj.gsx$mother.$t);
-  ftitles.push(obj.gsx$name.$t);
+  ftitles.push(obj[2]);
+  ftitles.push(obj[3]);
+  ftitles.push(obj[4]);
+  ftitles.push(obj[5]);
+  ftitles.push(obj[6]);
+  ftitles.push(obj[7]);
+  ftitles.push(obj[8]);
+  ftitles.push(obj[9]);
+  ftitles.push(obj[10]);
+  ftitles.push(obj[11]);
+  ftitles.push(obj[1]);
   
   // update record form text
   document.querySelector('#finame').placeholder = ftitles[ftitles.length-1];
@@ -567,21 +567,36 @@ window.onload = function() {
   enableRecord(false);
   first = true;
 
-  const key = '1JdbPseFBz9jUJiSDkg5zUnHe4noeag6HuJHnQoqXYJs/od6';
-  const url = 'https://spreadsheets.google.com/feeds/list/'.concat(key).concat('/public/values?alt=json');
+  //const key = '1JdbPseFBz9jUJiSDkg5zUnHe4noeag6HuJHnQoqXYJs/od6';
+  //const url = 'https://spreadsheets.google.com/feeds/list/'.concat(key).concat('/public/values?alt=json');
+  //const url = 'https://docs.google.com/spreadsheets/d/1JdbPseFBz9jUJiSDkg5zUnHe4noeag6HuJHnQoqXYJs/gviz/tq';
 
+
+  var key = '1oF5jBBdg2_fFyls5Wc9DrpBto0gVptl7HtoxxCzP4MM';
+  var tab_name = 'Sheet1';
+  var akey = 'AIzaSyALUQwX2E3k0Nny0J_r67v3zUQRBh0iXXY';
+  //var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+worksheet_id+'/values/'+tab_name+'?alt=json&key='+key-value;
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+key+'/values/'+tab_name+'?alt=json&key='+akey;
+/*
+($.getJSON(url, 'callback=?')).success(function(data){
+  console.log(data);
+});
+*/
   $.getJSON(url, function(data) {
 
     if (data !== null) {
-      for (var key in data.feed.entry) {
-        var obj = data.feed.entry[key];
-        if (obj.gsx$key.$t) {
+      for (var key in data.values) {
+        var obj = data.values[key];
+        if (obj[2]) {
           list.push(obj);
         }
       }
       let urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('$k')) {
         localStorage.setItem('key', urlParams.get('$k'));
+      }
+      if (urlParams.has('$a')) {
+        localStorage.setItem('akey', urlParams.get('$a'));
       }
 
       var key = localStorage.getItem("key");
@@ -621,35 +636,38 @@ function translateAll () {
 function parseData (meta) {
   initDataArr();
   initContainers();
-  var url = 'https://spreadsheets.google.com/feeds/list/'.concat(meta.gsx$key.$t).concat('/public/values?alt=json');
-
+  const tab_name = 'Sheet1';
+  const akey = 'AIzaSyALUQwX2E3k0Nny0J_r67v3zUQRBh0iXXY';
+  //var url = 'https://spreadsheets.google.com/feeds/list/'.concat(meta.gsx$key.$t).concat('/public/values?alt=json');
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+meta[2]+'/values/'+tab_name+'?alt=json&key='+akey;
   var success = false;
   $.getJSON(url, function(data) {
     success = true;
     if (data !== null) {
-      var entry = data.feed.entry;
+      var entry = data;
       var lastUpdateDate;
 
       var titleDiv = document.querySelector('#title');
       var h3 = document.createElement('h3');
 
       langOpt = 0;
-      if (enGps.includes(meta.gsx$group.$t)) {
+      if (enGps.includes(meta[1])) {
         langOpt = 1;
       }
-      if (zhEnGps.includes(meta.gsx$group.$t)) {
+      if (zhEnGps.includes(meta[1])) {
         langOpt = 2;
       }
-      h3.appendChild(document.createTextNode(meta.gsx$group.$t));
+      h3.appendChild(document.createTextNode(meta[1]));
       titleDiv.appendChild(h3);
 
-      scriptURL = meta.gsx$api.$t;
+      scriptURL = meta[4];
 
       var i = 0;
       var additional = false;
       var here_first = true;
-      for (var key in data.feed.entry) {
-        var obj = data.feed.entry[key];
+      var entry = data.values.slice(1, data.values.length);
+      for (var key in entry) {
+        var obj = entry[key];
         if (first) {
           updateFormTitles(obj);
           first = false;
@@ -659,8 +677,8 @@ function parseData (meta) {
           here_first = false;
           continue;
         }
-        lastUpdateDate = parseDate(obj.gsx$timestamp.$t);
-        var name = obj.gsx$name.$t;
+        lastUpdateDate = parseDate(obj[0]);
+        var name = obj[1];
           if (name && i<10) {
             if (!names.includes(name)) {
               if (!additional)
@@ -700,46 +718,46 @@ function parseData (meta) {
 function getEntry (obj) {
   var type;
   var units;
-  var name = obj.gsx$name.$t;
+  var name = obj[1];
   var num = display_names.indexOf(name);
-  if (obj.gsx$prayer.$t){
-    updateDataArr(0, parseInt(obj.gsx$prayer.$t)/10, num);
+  if (obj[2]){
+    updateDataArr(0, parseInt(obj[2])/10, num);
   }
 
-  if (obj.gsx$truth.$t){
-    updateDataArr(1, parseInt(obj.gsx$truth.$t)/10, num);
+  if (obj[3]){
+    updateDataArr(1, parseInt(obj[3])/10, num);
   }
 
-  if (obj.gsx$sermon.$t){
-    updateDataArr(2, parseInt(obj.gsx$sermon.$t)/10, num);
+  if (obj[4]){
+    updateDataArr(2, parseInt(obj[4])/10, num);
   }
 
-  if (obj.gsx$bible.$t){
-    updateDataArr(3, parseInt(obj.gsx$bible.$t)/10, num);
+  if (obj[5]){
+    updateDataArr(3, parseInt(obj[5])/10, num);
   }
 
-  if (obj.gsx$study.$t){
-    updateDataArr(4, parseInt(obj.gsx$study.$t)/10, num);
+  if (obj[6]){
+    updateDataArr(4, parseInt(obj[6])/10, num);
   }
 
-  if (obj.gsx$sermonpreach.$t){
-    updateDataArr(5, parseInt(obj.gsx$sermonpreach.$t)/10, num);
+  if (obj[7]){
+    updateDataArr(5, parseInt(obj[7])/10, num);
   }
 
-  if (obj.gsx$listen.$t){
-    updateDataArr(6, parseInt(obj.gsx$listen.$t)/10, num);
+  if (obj[8]){
+    updateDataArr(6, parseInt(obj[8])/10, num);
   }
 
-  if (obj.gsx$preaching.$t){
-    updateDataArr(7, parseInt(obj.gsx$preaching.$t)/10, num);
+  if (obj[9]){
+    updateDataArr(7, parseInt(obj[9])/10, num);
   }
 
-  if (obj.gsx$service.$t){
-    updateDataArr(8, parseInt(obj.gsx$service.$t)/10, num);
+  if (obj[10]){
+    updateDataArr(8, parseInt(obj[10])/10, num);
   }
 
-  if (obj.gsx$mother.$t){
-    updateDataArr(9, parseInt(obj.gsx$mother.$t)/10, num);
+  if (obj[11]){
+    updateDataArr(9, parseInt(obj[11])/10, num);
   }
 }
 
