@@ -58,8 +58,8 @@ var scriptURL = '';
 const form = document.forms['submit-to-google-sheet'];
 
 
-var enGps = ['Young Adult (Female) 4-3', 'Young Adult (Female) 4-4'];
-var zhEnGps = ['壯年4組／Male Adult Group 4'];
+var enGps = ['Young Adult (Female) 4-3 & 4-4'];
+var zhEnGps = ['壯年1 / Male Adult Group 1'];
 
 var translate = [{
   'login':    '登入',
