@@ -54,6 +54,9 @@ var ftitles = [];
 var first = false;
 var isActive = true;
 
+var starName = '';
+var starNum = 0;
+
 var scriptURL = '';
 const form = document.forms['submit-to-google-sheet'];
 
@@ -102,15 +105,19 @@ var bgimages=[
 'https://wallpapercave.com/wp/wp6328875.jpg',
 'https://image.freepik.com/free-vector/white-prism-background-design-vector_53876-86339.jpg',
 'https://image.freepik.com/free-photo/background_53876-32171.jpg',
-'https://image.freepik.com/free-vector/simple-pattern-white-branches-background_53876-60579.jpg',
+'https://wallpaperaccess.com/full/1157298.png',
+'https://image.freepik.com/free-vector/white-seamless-weave-pattern-background_53876-115290.jpg',
 'https://wallpaperaccess.com/full/1157298.png',
 'https://i.pinimg.com/736x/88/4b/ec/884becb4540e2724d01db2b53ccdb71e.jpg'];
 
-// 'https://media1.giphy.com/media/cJl4NoIJOc5nN7r5MA/giphy.gif',
 var cardImages=[
 'https://media.giphy.com/media/10Ua7rs9fxa8QE/giphy.gif',
 'https://media0.giphy.com/media/jaOXKCxtBPLieRLI0c/giphy.gif',
 'https://media.giphy.com/media/2seaKlqqoGglLcPH2Q/giphy.gif',
+'https://media2.giphy.com/media/UVTMFrWQBsRyctpP0R/giphy.gif?cid=790b76116176f208dca546a971a9a488b51ff847050f5c89&rid=giphy.gif&ct=g',
+'https://media0.giphy.com/media/eNSVgDsBdaSGajxnkc/giphy.gif?cid=790b76112286c053fd97ce841e68892e1f7aa9819e5b0a59&rid=giphy.gif&ct=g',
+'https://media0.giphy.com/media/sJvz8Qnfly3BOuotGx/giphy.gif?cid=790b761133dfc476e254225ca5d6e6d61cdc7ef9ad148a19&rid=giphy.gif&ct=g',
+'https://media3.giphy.com/media/kg19fN5BXbZGIDznzG/giphy.gif?cid=790b7611bc55723f02600d1ae4d696cf5121e678bd6b367b&rid=giphy.gif&ct=g',
 'https://media1.giphy.com/media/ieaUdBJJC19uw/giphy.gif',
 'https://media3.giphy.com/media/xT9IgDmCrgQ830BvcA/giphy.gif?cid=ecf05e47c8okl64dk9rv3vtj1qy2t7te0y3omqeqb36m5lr4&rid=giphy.gif',
 'https://sgwmscog.com/wp-content/uploads/Child-light.gif'];
@@ -124,9 +131,9 @@ var completeImages = ['https://media0.giphy.com/media/5zmvqWl2HAPz47oEkG/giphy.g
 'https://media0.giphy.com/media/3gWIjOpHyh066G46he/giphy.gif',
 'https://media2.giphy.com/media/SHT2ELb4lvmLU9IcC1/giphy.gif',
 'http://cdn.lowgif.com/full/a4e39312923151bd-.gif',];
-var randomNumber = Math.floor(Math.random() * 3);
-var applyTextWhite = [4];
-var repeatBg = [1, 2, 3, 5];
+var randomNumber = Math.floor(Math.random() * 4);
+var applyTextWhite = [3, 4];
+var repeatBg = [1, 2, 5];
 var rotateCardBg = [1];
 
 var bgImg = 'url(' + bgimages[randomNumber] + ')';
@@ -352,8 +359,10 @@ function updateNameList() {
   var div = document.querySelector('#nameList');
   for (var name in display_names) {
     var h6 = document.createElement('h6');
-    h6.appendChild(document.createTextNode(display_names[name]));
+    const str = display_names[name];
+    h6.appendChild(document.createTextNode(str));
     h6.style.color = textColors[name];
+    h6.onclick = function () {selectStar(str)};
     div.appendChild(h6);
   }
   
@@ -854,6 +863,47 @@ form.addEventListener('submit', e => {
   }
 })
 
-$('.modal').on('hidden.bs.modal', function(){
+$('#myModal').on('hidden.bs.modal', function(){
     $(this).find('form')[0].reset();
 });
+
+$('#starModal').on('hidden.bs.modal', function(){
+  var sbody = document.querySelector('#star_container');
+  var title = document.querySelector('#starModalTitle');
+
+  title.innerHTML = '';
+  sbody.innerHTML = '';
+});
+
+$('#starModal').on('shown.bs.modal', function(){
+    console.log('star');
+  var sbody = document.querySelector('#star_container');
+  var rect = document.querySelector('.star').getBoundingClientRect();
+  var title = document.querySelector('#starModalTitle');
+
+  title.innerHTML = starName;
+  sbody.innerHTML = '';
+  var i = 0;
+  var amount = starNum;
+
+  while (i < amount) {
+    var node = document.createElement("i");
+    var posX = Math.floor(Math.random() * (rect.width-100) + 50);
+    var posY = Math.floor(Math.random() * (rect.height-200) + 100);
+    var rotation = Math.random() * 180;
+    var delay = Math.random() * 20;
+    var scale = Math.random() * 0.2;
+    node.style.left = posX+'px';
+    node.style.top = posY+'px';
+    node.style.transform = 'rotate('+rotation+'deg) scale('+scale+')';
+    node.style.animationDelay = delay+'s';
+    sbody.appendChild(node);
+    i++;
+  }
+});
+
+function selectStar(name) {
+  starNum = 3;
+  starName = name;
+  $('#starModal').modal('show');
+}
