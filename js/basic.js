@@ -903,7 +903,7 @@ $('#starModal').on('shown.bs.modal', function(){
 });
 
 function selectStar(name) {
-  starNum = 3;
+  starNum = 0;
   starName = name;
   $('#starModal').modal('show');
 }
