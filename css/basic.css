@@ -171,7 +171,7 @@ i {
    transition: all 0.4s ease-in-out;
    transform: rotate(15deg);
    animation: shine;
-   animation-duration: 5s;
+   animation-duration: 7s;
    animation-iteration-count: infinite;
 }
  i:after, i:before {

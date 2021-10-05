@@ -54,6 +54,7 @@ var ftitles = [];
 var first = false;
 var isActive = true;
 
+var starList = {};
 var starName = '';
 var starNum = 0;
 
@@ -75,6 +76,8 @@ var translate = [{
   'alertMsgDay': '請多多得福！表格將於明晚關閉。',
   'alertMsgHr':  '請多多得福！表格將於[hr]小時後關閉。',
   'alertMsgMin': '請多多得福！表格將於[min]分鐘後關閉。',
+  'alertFormEmpty': '不能提交空白表格',
+  'starTitle': ' 的星空',
 },{
   'login':    'Login',
   'logout':   'Logout',
@@ -86,6 +89,8 @@ var translate = [{
   'alertMsgDay': 'GBU! Form will be closed tomorrow night.',
   'alertMsgHr':  'GBU! Form will be closed in [hr] hours.',
   'alertMsgMin': 'GBU! Form will be closed in [min] mins.',
+  'alertFormEmpty': 'Cannot submit a blank form.',
+  'starTitle': '\'s Starry Sky',
 },{
   'login':    '登入／Login',
   'logout':   '登出／Logout',
@@ -362,7 +367,7 @@ function updateNameList() {
     const str = display_names[name];
     h6.appendChild(document.createTextNode(str));
     h6.style.color = textColors[name];
-    h6.onclick = function () {selectStar(str)};
+    // h6.onclick = function () {selectStar(str)};
     div.appendChild(h6);
   }
   
@@ -693,6 +698,8 @@ function parseData (meta) {
               if (!additional)
                 names.push(name);
               display_names.push(name);
+              var snum = (parseInt(obj[12]) ? parseInt(obj[12]) : 0);
+              starList[name] = snum;
             }else{
               additional = true;
             }
@@ -820,7 +827,19 @@ function checkValidate() {
       return false;
     }
   }
-  return true;
+
+  var count = 0;
+  for (var j = 0; j < 10; j++) {
+    var selector = '#fi'.concat(j.toString());
+    const num = document.querySelector(selector).value;
+    count += num;
+  }
+  if (count > 0) {
+    return true;
+  } else {
+    alert(translate[langOpt].alertFormEmpty);
+    return false;
+  }
 }
 
 
@@ -848,11 +867,16 @@ form.addEventListener('submit', e => {
   e.preventDefault()
   if (checkValidate() && isActive) {
     on();
+    var e = document.getElementById("finame");
+    var name = e.options[e.selectedIndex].text;
     fetch(scriptURL, { method: 'POST', body: new FormData(form)})
     .then(response => {
       // alert('已記錄 Recorded');
       off();
       getMetaData(localStorage.getItem("key"));
+      // selectStar('Envose');
+      // name = document.getElementById("finame").value;
+      selectStar(name);
     })
     .catch(error => {
       alert('錯誤 Error\n['+ error.message + ']');
@@ -876,7 +900,6 @@ $('#starModal').on('hidden.bs.modal', function(){
 });
 
 $('#starModal').on('shown.bs.modal', function(){
-    console.log('star');
   var sbody = document.querySelector('#star_container');
   var rect = document.querySelector('.star').getBoundingClientRect();
   var title = document.querySelector('#starModalTitle');
@@ -903,7 +926,7 @@ $('#starModal').on('shown.bs.modal', function(){
 });
 
 function selectStar(name) {
-  starNum = 0;
-  starName = name;
+  starNum = starList[name];
+  starName = name + translate[langOpt].starTitle;
   $('#starModal').modal('show');
 }
