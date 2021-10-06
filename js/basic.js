@@ -102,6 +102,8 @@ var translate = [{
   'alertMsgDay': '請多多得福！表格將於明晚關閉',
   'alertMsgHr':  '請多多得福！表格將於[hr](hr)小時後關閉',
   'alertMsgMin': '請多多得福！表格將於[min](min)分鐘後關閉',
+  'alertFormEmpty': '不能提交空白表格\nCannot submit a blank form.',
+  'starTitle': '\'s Starry Sky 的星空',
 }];
 
 
