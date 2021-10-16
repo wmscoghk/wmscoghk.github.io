@@ -53,6 +53,7 @@ var validateArr = new Array(10);
 var ftitles = [];
 var first = false;
 var isActive = true;
+var admin = false;
 
 var starList = {};
 var starName = '';
@@ -369,7 +370,10 @@ function updateNameList() {
     const str = display_names[name];
     h6.appendChild(document.createTextNode(str));
     h6.style.color = textColors[name];
-    // h6.onclick = function () {selectStar(str)};
+    if (admin) {
+      h6.classList.add('hoverable_h6');
+      h6.onclick = function () {selectStar(str)};
+    }
     div.appendChild(h6);
   }
   
@@ -617,6 +621,7 @@ window.onload = function() {
 
       var key = localStorage.getItem("key");
       if (key === 'jackshin') {
+        admin = true;
         createDropDown();
       }else {
         if (key) {
