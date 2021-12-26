@@ -171,7 +171,7 @@ i {
    transition: all 0.4s ease-in-out;
    transform: rotate(15deg);
    animation: shine;
-   animation-duration: 7s;
+   animation-duration: 5s;
    animation-iteration-count: infinite;
 }
  i:after, i:before {
@@ -195,13 +195,13 @@ i {
 @keyframes shine{
   
   0%{
-      transform: scale(0.1) rotate(-200deg);
+      transform: scale(0) rotate(-200deg);
   }
   55%{
-      transform: scale(0.3) rotate(180deg);
+      transform: scale(0.4) rotate(180deg);
   }
   100%{
-      transform: scale(0.1) rotate(-200deg);
+      transform: scale(0) rotate(-200deg);
   }
   
 }
