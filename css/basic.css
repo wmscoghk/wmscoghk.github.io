@@ -198,7 +198,7 @@ i {
       transform: scale(0.1) rotate(-200deg);
   }
   55%{
-      transform: scale(0.5) rotate(180deg);
+      transform: scale(0.3) rotate(180deg);
   }
   100%{
       transform: scale(0.1) rotate(-200deg);
